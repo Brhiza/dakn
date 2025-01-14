@@ -250,8 +250,12 @@ function copyResult() {
 
 async function aiInterpretation() {
   const inputText = document.getElementById('inputText').value;
-  const cardNames = drawnCards.map(card => `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}`).join('、');
-  const cardDescriptionsText = drawnCards.map(card => `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}：${card.description}`).join('\n');
+  const cardNames = drawnCards.map(card => 
+      `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}`
+  ).join('、');
+  const cardDescriptionsText = drawnCards.map(card => 
+      `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}：${card.description}`
+  ).join('\n');
   
   const prompt = `你是一个专业的塔罗师，你会根据我的问题和抽的牌给我解决问题。\n 问题：${inputText}\n\n抽取的卡牌：\n${cardDescriptionsText}\n`;
 
@@ -315,13 +319,30 @@ async function aiInterpretation() {
       }
     }
 
+    // 只在没有收到任何内容时抛出错误
+    if (accumulatedText.trim() === '') {
+      throw new Error('AI未返回有效的解读结果');
+    }
+
   } catch (error) {
     console.error("AI解读失败: ", error);
-    alert("AI解读失败: " + error.message);
+    outputText.style.display = 'block';
+    outputText.innerHTML = `<div style="color: #ff4081; padding: 10px; border: 1px solid #ff4081; border-radius: 5px; margin: 10px 0;">
+      <p>😔 AI解读遇到了一些问题：</p>
+      <p>${error.message}</p>
+      <p>您可以：</p>
+      <ul>
+        <li>检查网络连接</li>
+        <li>稍等片刻后重试</li>
+        <li>如果问题持续存在，请刷新页面</li>
+      </ul>
+    </div>`;
   } finally {
     aiButton.classList.remove('loading');
     aiButton.textContent = 'AI解读';
-    outputText.style.display = 'block';
+    if (!outputText.innerHTML) {
+      outputText.style.display = 'block';
+    }
   }
 }
 
