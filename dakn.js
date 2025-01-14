@@ -89,7 +89,6 @@ const cardDescriptions = [{
   }
 ];
 
-const cdnBaseUrl = "https://sydf.cc/img/images/";
 const defaultCardImage = `${cdnBaseUrl}00.jpg`;
 let cards = [];
 let drawnCards = [];
@@ -144,12 +143,12 @@ function displayCards() {
 }
 
 function generateResultContent(card) {
-  const imgPath = `${cdnBaseUrl}${card.number}.jpg`;
-  const transformStyle = card.reversed ? "rotate(180deg)" : "none";
-  const cardWidth = window.innerWidth <= 768 ? '5rem' : '11rem';
-  const cardHeight = window.innerWidth <= 768 ? '7.5rem' : '16.5rem';
-  const cardName = `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}`;
-  return `<div style="display: flex; flex-direction: column; align-items: center;"><img src='${imgPath}' style='width: ${cardWidth}; height: ${cardHeight}; transform:${transformStyle}' alt='${cardName}'><p>${cardName}</p></div>`;
+    const imgPath = `${cdnBaseUrl}${parseInt(card.number) + 1}.jpg`;
+    const transformStyle = card.reversed ? "rotate(180deg)" : "none";
+    const cardWidth = window.innerWidth <= 768 ? '5rem' : '11rem';
+    const cardHeight = window.innerWidth <= 768 ? '7.5rem' : '16.5rem';
+    const cardName = `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}`;
+    return `<div style="display: flex; flex-direction: column; align-items: center;"><img src='${imgPath}' style='width: ${cardWidth}; height: ${cardHeight}; transform:${transformStyle}' alt='${cardName}'><p>${cardName}</p></div>`;
 }
 
 function drawCard() {

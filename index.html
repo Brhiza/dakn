@@ -1,37 +1,382 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大阿卡纳</title>
-    <link rel="stylesheet" href="dakn.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <!-- Font -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Noto Sans Mono", monospace;
+            margin: 0%;
+            padding: 0%;
+        }
+
+        body {
+            background: linear-gradient(to bottom right, #9370DB 0, #483D8B 100%);
+            overflow-x: hidden;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .content {
+            padding-bottom: 5%;
+            padding-top: 8%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content div {
+            align-items: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+        }
+
+        .contenthead {
+            padding: 3px;
+        }
+
+        .contentheading {
+            display: flex;
+            font-family: inherit;
+            font-size: 32px;
+            justify-content: center;
+            margin: 0%;
+            padding: 5px;
+            text-shadow: 0 0 3px #fff;
+        }
+
+        .animatedText {
+            font-size: 18px;
+            height: 5vh;
+            padding-bottom: 10px;
+            text-shadow: 0 0 5px #fff;
+            width: 100%;
+        }
+
+        .contentbtn button,
+        .contentbtn a {
+            border-radius: 5px;
+            display: inline-block;
+            letter-spacing: .025em;
+            margin-bottom: 20px;
+            text-decoration: none;
+            text-shadow: 0 0 1px #fff;
+            transition: all .15s ease;
+            width: 100%;
+        }
+
+        .contentbtn button:hover,
+        .contentbtn a:hover {
+            background-color: #fff;
+            color: black;
+        }
+
+        footer {
+            align-items: center;
+            background-color: transparent;
+            bottom: 0;
+            display: flex;
+            font-family: system-ui, -apple-system, sans-serif;
+            height: 50px;
+            justify-content: center;
+            left: 0;
+            position: fixed;
+            right: 0;
+            width: 100%;
+            z-index: 1;
+        }
+
+        footer p {
+            color: whitesmoke;
+            margin: 0;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: grey;
+        }
+
+        @media screen AND (max-width: 700px) {
+            .mainbg {
+                height: 100vh !important;
+            }
+        }
+    </style>
+    <title>时月塔罗</title>
 </head>
 <body>
-    <h1 class="title">时月的大阿卡纳</h1>
-    <div class="main">
-        <div class="form">
-            1.写下您的问题
-            <br><br>
-            <input type="text" id="inputText" placeholder="只能提问能用Yes/No回答的问题哦" autofocus>
-            <br><br>
-            2.头脑中想着您的问题，并抽取 3 张塔罗牌
-            <br>
-        </div>
-        <main class="center">
-            <div class="deck" id="cardContainer"></div>
-            <div class="result" id="resultContainer"></div>
-            <div class="btns">
-                <button class="btn" id="copyButton" onclick="copyResult()" style="display: none;">复制结果</button>
-                <button class="btn" id="resetButton" onclick="resetCards()" style="display: none;">重新抽牌</button>
-                <button class="btn btn-ai" id="aiButton" onclick="aiInterpretation()" style="display: none;">AI解读</button>
+    <div id="particles-js"></div>
+    <div class='content'>
+        <div>
+            <div class='contenthead'>
+                <h2 class='contentheading'>时月的大阿卡纳</h2>
             </div>
-            <div class="output" id="outputText"></div>
-        </main>
+            <div class='contenttypewritter animatedText'></div>
+            <div class='contentbtn'>
+            <br/><br/><br/>
+                选择你的牌组<br/><br/>
+                <a href="mx.html" class='btn btn-outline-light' role='button'>穆夏</a>
+                <a href="mds.html" class='btn btn-outline-light' role='button'>美杜莎 </a>
+                <a href="mz.html" class='btn btn-outline-light' role='button'>迷踪 </a>
+                <a href="xs.html" class='btn btn-outline-light' role='button'>像素 </a>
+                <a href="tz.html" class='btn btn-outline-light' role='button'>Rabbit </a>
+                <a href="td.html" class='btn btn-outline-light' role='button'>土豆 </a>
+            </div>
+        </div>
     </div>
 
-    <div class="bg" id="particles-js"></div>
-    <script src="dakn.js"></script>
+    <footer>
+        <p>Made with ❤️ by <a href='https://mansoorbarri.com/' target='_blank'>Mansoor Barri</a></p>
+    </footer>
+
+    <!-- JS for particles -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 0,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: "#ffffff"
+                },
+                shape: {
+                    type: "circle"
+                },
+                opacity: {
+                    value: 0.7,
+                    random: false,
+                    anim: {
+                        enable: false
+                    }
+                },
+                size: {
+                    value: 1,
+                    random: true,
+                    anim: {
+                        enable: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 15,
+                    color: "#ffffff",
+                    opacity: 0.3,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    out_mode: "bounce",
+                    bounce: true,
+                    attract: {
+                        enable: true,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: false,
+                        mode: "grab"
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: "push"
+                    },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // 添加自定义星轨运动
+        let canvas = document.querySelector('#particles-js canvas');
+        let ctx = canvas.getContext('2d');
+        let centerX = 0;
+        let centerY = window.innerHeight;
+        let particles = [];
+        
+        // 初始化粒子
+        for(let i = 0; i < 1500; i++) {
+            let minRadius = Math.min(window.innerWidth, window.innerHeight) * 0.15;
+            let maxRadius = Math.max(window.innerWidth, window.innerHeight) * 1.3;
+            
+            // 使用更自然的轨道分布
+            let baseTrackCount = 18;
+            // 添加随机偏移，使轨道看起来更自然
+            let randomOffset = (Math.random() - 0.5) * 0.6;
+            let trackIndex = Math.floor(Math.random() * baseTrackCount) + randomOffset;
+            trackIndex = Math.max(0, Math.min(trackIndex, baseTrackCount - 1));
+            
+            // 使用更平滑的分布函数
+            let normalizedTrack = Math.pow(trackIndex / (baseTrackCount - 1), 0.9);
+            normalizedTrack = normalizedTrack * (0.85 + Math.sqrt(normalizedTrack) * 0.15);
+            let radius = minRadius + (maxRadius - minRadius) * normalizedTrack;
+            
+            // 为每条轨道添加更小的随机变化
+            radius += (Math.random() - 0.5) * (maxRadius - minRadius) * 0.015;
+            
+            // 优化内圈粒子的生成概率
+            if (normalizedTrack < 0.15 && Math.random() > normalizedTrack * 4) {
+                continue;
+            }
+
+            let angle = Math.random() * Math.PI * 2;
+            let speed = (0.025 + Math.random() * 0.05) / 100;
+            let size = 0.4 + Math.random() * 1.2;
+            particles.push({
+                radius,
+                angle,
+                speed,
+                size,
+                sizeOffset: Math.random() * Math.PI * 2,
+                sizeSpeed: 0.015 + Math.random() * 0.015
+            });
+        }
+
+        // 更新和绘制粒子
+        function updateParticles() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.025)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#ffffff';
+            particles.forEach(particle => {
+                // 更新角度
+                particle.angle += particle.speed;
+                if (particle.angle >= Math.PI * 2) {
+                    particle.angle = 0;
+                }
+                
+                // 更新大小
+                particle.sizeOffset += particle.sizeSpeed;
+                if (particle.sizeOffset >= Math.PI * 2) {
+                    particle.sizeOffset = 0;
+                }
+                let currentSize = particle.size * (0.8 + Math.sin(particle.sizeOffset) * 0.2);
+                
+                // 计算新位置
+                let x = centerX + particle.radius * Math.cos(particle.angle);
+                let y = centerY + particle.radius * Math.sin(particle.angle);
+                
+                // 优化可视区域判断
+                let margin = 80;
+                if (x >= -margin && x <= canvas.width + margin && 
+                    y >= -margin && y <= canvas.height + margin) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, currentSize, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+            
+            requestAnimationFrame(updateParticles);
+        }
+
+        // 处理窗口大小变化
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            centerX = 0;
+            centerY = window.innerHeight;
+            
+            // 重新计算粒子半径，保持原有的分布特征
+            let minRadius = Math.min(window.innerWidth, window.innerHeight) * 0.3;
+            let maxRadius = Math.max(window.innerWidth, window.innerHeight) * 2;
+            
+            particles.forEach(particle => {
+                // 保持粒子在原有轨道的相对位置
+                let normalizedRadius = (particle.radius - particle.radius * 0.3) / (particle.radius * 1.7);
+                particle.radius = minRadius + (maxRadius - minRadius) * normalizedRadius;
+                // 添加一些随机性
+                particle.radius += (Math.random() - 0.5) * (maxRadius - minRadius) * 0.03;
+            });
+        });
+
+        // 启动动画
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        updateParticles();
+    </script>
+
+    <!-- JS for typewritter -->
+    <script>
+        // 修改打字机显示的文本数组
+const textArray = ["大阿卡纳", "塔罗牌阵", "占卜", "解牌"];
+    </script>
+    <script>
+        // typewritter
+        let typeJsText = document.querySelector(".animatedText");
+        let stringIndex = 0;
+        let charIndex = 0;
+        let isTyping = true;
+
+        function typeJs() {
+            if (stringIndex < textArray.length) {
+                const currentString = textArray[stringIndex];
+
+                if (isTyping) {
+                    if (charIndex < currentString.length) {
+                        typeJsText.innerHTML += currentString.charAt(charIndex);
+                        charIndex++;
+                    } else {
+                        isTyping = false;
+                    }
+                } else {
+                    if (charIndex > 0) {
+                        typeJsText.innerHTML = currentString.substring(0, charIndex - 1);
+                        charIndex--;
+                    } else {
+                        isTyping = true;
+                        stringIndex++;
+
+                        if (stringIndex >= textArray.length) {
+                            stringIndex = 0;
+                        }
+
+                        charIndex = 0;
+                        typeJsText.innerHTML = "";
+                    }
+                }
+            }
+        }
+
+        setInterval(typeJs, 120);
+    </script>
 </body>
 </html>

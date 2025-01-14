@@ -256,11 +256,12 @@ body {
 }
 
 .title {
-    font-size: 48px;
+    font-size: 64px;
     color: var(--primary-color);
     margin-bottom: 30px;
     text-shadow: var(--text-shadow);
     text-align: center;
+    text-decoration: none;
 }
     
 .form {
@@ -352,7 +353,7 @@ body {
     }
 
     .title {
-        font-size: 32px;
+        font-size: 40px;
     }
 
     .btns {
@@ -373,6 +374,14 @@ body {
         line-height: 1.4;
         flex: 0 1 auto;
         width: calc(33.33% - 8px);
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 24px;
     }
 }
 
@@ -430,4 +439,95 @@ body {
     .btn {
         background-color: rgba(0, 0, 0, 0.6) !important;
     }
+} 
+
+a h1.title {
+    text-decoration: none;
+    color: #fff;
+} 
+
+/* 添加 h2 标题样式 */
+h2 {
+    font-size: 40px;
+    color: var(--primary-color);
+    margin: 25px 0;
+    text-shadow: var(--text-shadow);
+    text-align: center;
+}
+
+/* 添加 h3 标题样式 */
+h3 {
+    font-size: 32px;
+    color: var(--primary-color);
+    margin: 20px 0;
+    text-shadow: var(--text-shadow);
+    text-align: center;
+} 
+
+/* 添加原来在 wt.html 中的样式 */
+* {
+    box-sizing: border-box;
+    font-family: "Noto Sans Mono", monospace;
+    margin: 0%;
+    padding: 0%;
+}
+
+body {
+    background: linear-gradient(to bottom right, #9370DB 0, #483D8B 100%);
+    overflow-x: hidden;
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.content {
+    padding-bottom: 5%;
+    padding-top: 8%;
+    position: relative;
+    z-index: 1;
+}
+
+.content div {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+.contenthead {
+    padding: 3px;
+}
+
+.contentheading {
+    display: flex;
+    font-family: inherit;
+    font-size: 20px;
+    justify-content: center;
+    margin: 0%;
+    padding: 5px;
+    text-shadow: 0 0 3px #fff;
+}
+
+.animatedText {
+    font-size: 18px;
+    height: 5vh;
+    padding-bottom: 10px;
+    text-shadow: 0 0 5px #fff;
+    width: 100%;
+} 
+
+a {
+    text-decoration: none;
 } 
