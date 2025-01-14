@@ -128,6 +128,22 @@
                 height: 100vh !important;
             }
         }
+
+        /* 添加新的动画相关样式 */
+        .fade-out {
+            opacity: 0;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        #spread-selection, #deck-selection {
+            opacity: 1;
+            transition: opacity 0.8s ease-in;
+        }
+        
+        #deck-selection {
+            display: none;
+            opacity: 0;
+        }
     </style>
     <title>时月塔罗</title>
 </head>
@@ -136,18 +152,28 @@
     <div class='content'>
         <div>
             <div class='contenthead'>
-                <h2 class='contentheading'>时月的大阿卡纳</h2>
+                <h2 class='contentheading'>时月塔罗</h2>
             </div>
             <div class='contenttypewritter animatedText'></div>
             <div class='contentbtn'>
-            <br/><br/><br/>
-                选择你的牌组<br/><br/>
-                <a href="tarot.html?deck=mx" class='btn btn-outline-light' role='button'>穆夏</a>
-                <a href="tarot.html?deck=mds" class='btn btn-outline-light' role='button'>美杜莎 </a>
-                <a href="tarot.html?deck=mz" class='btn btn-outline-light' role='button'>迷踪 </a>
-                <a href="tarot.html?deck=xs" class='btn btn-outline-light' role='button'>像素 </a>
-                <a href="tarot.html?deck=tz" class='btn btn-outline-light' role='button'>Rabbit </a>
-                <a href="tarot.html?deck=td" class='btn btn-outline-light' role='button'>土豆 </a>
+                <br/><br/><br/>
+                <div id="spread-selection">
+                    选择你的牌阵<br/><br/>
+                    <a href="wt.html?count=1" class='btn btn-outline-light spread-btn' role='button'>单牌</a>
+                    <a href="wt.html?count=3" class='btn btn-outline-light spread-btn' role='button'>三牌</a>
+                    <a href="dakn.html" class='btn btn-outline-light spread-btn' role='button'>大阿卡纳</a>
+                </div>
+                <div id="deck-selection" style="display: none;">
+                    选择你的牌组<br/><br/>
+                    <div class="deck-buttons">
+                        <a href="#" class='btn btn-outline-light deck-btn' data-deck="mx">穆夏</a>
+                        <a href="#" class='btn btn-outline-light deck-btn' data-deck="mds">美杜莎</a>
+                        <a href="#" class='btn btn-outline-light deck-btn' data-deck="mz">迷踪</a>
+                        <a href="#" class='btn btn-outline-light deck-btn' data-deck="xs">像素</a>
+                        <a href="#" class='btn btn-outline-light deck-btn' data-deck="tz">Rabbit</a>
+                        <a href="#" class='btn btn-outline-light deck-btn' data-deck="td">土豆</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -333,7 +359,7 @@
     <!-- JS for typewritter -->
     <script>
         // 修改打字机显示的文本数组
-const textArray = ["大阿卡纳", "塔罗牌阵", "占卜", "解牌"];
+const textArray = ["单牌占卜", "三牌占卜", "大阿卡纳", "塔罗解牌"];
     </script>
     <script>
         // typewritter
@@ -373,6 +399,49 @@ const textArray = ["大阿卡纳", "塔罗牌阵", "占卜", "解牌"];
         }
 
         setInterval(typeJs, 120);
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const spreadSelection = document.getElementById('spread-selection');
+        const deckSelection = document.getElementById('deck-selection');
+        let selectedUrl = '';
+
+        // 监听牌阵按钮点击
+        document.querySelectorAll('.spread-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedUrl = this.getAttribute('href');
+                
+                // 添加淡出动画
+                spreadSelection.classList.add('fade-out');
+                
+                // 等待淡出动画完成后再显示牌组选择
+                setTimeout(() => {
+                    spreadSelection.style.display = 'none';
+                    deckSelection.style.display = 'block';
+                    
+                    // 使用 setTimeout 确保 display:block 生效后再添加透明度动画
+                    setTimeout(() => {
+                        deckSelection.style.opacity = '1';
+                    }, 50);
+                    
+                    // 更新标题文字
+                    document.querySelector('.contentheading').textContent = '选择你的牌组';
+                }, 800); // 与 CSS transition 时间匹配
+            });
+        });
+
+        // 监听牌组按钮点击
+        document.querySelectorAll('.deck-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const deck = this.getAttribute('data-deck');
+                const separator = selectedUrl.includes('?') ? '&' : '?';
+                window.location.href = `${selectedUrl}${separator}deck=${deck}`;
+            });
+        });
+    });
     </script>
 </body>
 </html>

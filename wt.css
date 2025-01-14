@@ -493,6 +493,13 @@ body {
     .output code {
         font-size: 0.8em;
     }
+
+    .draw-btn {
+        width: 150px;
+        height: 150px;
+        font-size: 1.2rem;
+        margin: 1rem auto;
+    }
 }
 
 /* 平板设备样式 (min-width: 769px) and (max-width: 1024px) */
@@ -660,4 +667,43 @@ input, textarea {
 .card img {
     max-width: 200px;
     transition: transform 0.3s ease;
+} 
+
+/* 添加抽牌按钮样式 */
+.draw-btn {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: linear-gradient(var(--primary-gradient));
+    border: 3px solid var(--primary-color);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    margin: 2rem auto;
+}
+
+.draw-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.draw-btn:active {
+    transform: scale(0.95);
+}
+
+/* 移动端样式调整 */
+@media (max-width: 768px) {
+    .draw-btn {
+        width: 150px;
+        height: 150px;
+        font-size: 1.2rem;
+        margin: 1rem auto;
+    }
 } 
