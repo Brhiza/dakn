@@ -1,0 +1,147 @@
+:root {
+    --primary-gradient-start: #9370DB;
+    --primary-gradient-end: #483D8B;
+    --text-shadow: 0 0 3px #fff;
+    --transition-time: 0.15s;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: "Noto Sans Mono", monospace;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: linear-gradient(to bottom right, var(--primary-gradient-start) 0, var(--primary-gradient-end) 100%);
+    overflow-x: hidden;
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.content {
+    padding-bottom: 5%;
+    padding-top: 8%;
+    position: relative;
+    z-index: 1;
+}
+
+.content div {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+}
+
+.contenthead {
+    padding: 3px;
+}
+
+.contentheading {
+    display: flex;
+    font-size: 32px;
+    justify-content: center;
+    margin: 0;
+    padding: 5px;
+    text-shadow: var(--text-shadow);
+}
+
+.animatedText {
+    font-size: 18px;
+    height: 5vh;
+    padding-bottom: 10px;
+    text-shadow: 0 0 5px #fff;
+    width: 100%;
+}
+
+.contentbtn {
+    margin-top: 20px;
+}
+
+.selection-section {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.selection-title {
+    color: white;
+    font-size: 18px;
+    margin: 20px 0;
+    text-shadow: var(--text-shadow);
+}
+
+.spread-buttons,
+.deck-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.btn {
+    border-radius: 5px;
+    display: inline-block;
+    letter-spacing: .025em;
+    text-decoration: none;
+    text-shadow: var(--text-shadow);
+    transition: all var(--transition-time) ease;
+    transform: translateZ(0);
+    will-change: transform;
+    width: auto;
+    min-width: 120px;
+}
+
+.btn:hover {
+    background-color: #fff;
+    color: black;
+}
+
+/* 动画相关样式 */
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.8s ease-out;
+}
+
+#spread-selection,
+#deck-selection {
+    opacity: 1;
+    transition: opacity 0.8s ease-in;
+}
+
+#deck-selection {
+    display: none;
+    opacity: 0;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    .contentheading {
+        font-size: 24px;
+    }
+    
+    .animatedText {
+        font-size: 16px;
+    }
+    
+    .selection-title {
+        font-size: 16px;
+    }
+    
+    .btn {
+        min-width: 100px;
+    }
+} 

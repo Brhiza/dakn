@@ -147,10 +147,8 @@ function displayCards() {
 function generateResultContent(card) {
     const imgPath = `${cdnBaseUrl}${parseInt(card.number) + 1}.jpg`;
     const transformStyle = card.reversed ? "rotate(180deg)" : "none";
-    const cardWidth = window.innerWidth <= 768 ? '5rem' : '11rem';
-    const cardHeight = window.innerWidth <= 768 ? '7.5rem' : '16.5rem';
     const cardName = `${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}`;
-    return `<div style="display: flex; flex-direction: column; align-items: center;"><img src='${imgPath}' style='width: ${cardWidth}; height: ${cardHeight}; transform:${transformStyle}' alt='${cardName}'><p>${cardName}</p></div>`;
+    return `<div><img src='${imgPath}' style='transform:${transformStyle}' alt='${cardName}'><p>${cardName}</p></div>`;
 }
 
 function drawCard() {
@@ -175,10 +173,7 @@ function drawCard() {
   
   // 更新结果区域
   const resultContainer = document.getElementById('resultContainer');
-  resultContainer.innerHTML += generateResultContent({
-    number: cardNumber,
-    reversed: isReversed
-  });
+  resultContainer.innerHTML = drawnCards.map(card => generateResultContent(card)).join('');
 
   // 移除当前卡片
   this.classList.add('hide');
@@ -202,6 +197,12 @@ function drawCard() {
     const aiButton = document.getElementById('aiButton');
     aiButton.style.display = 'block';
 
+    // 隐藏抽牌区域和表单
+    const form = document.querySelector('.form');
+    form.style.display = 'none';
+    const cardContainer = document.getElementById('cardContainer');
+    cardContainer.style.display = 'none';
+
     // 更新输出文本
     const outputText = document.getElementById('outputText');
     const cardNames = drawnCards.map(card => `<strong>${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}</strong>`).join('、');
@@ -224,21 +225,26 @@ function drawCard() {
 }
 
 function resetCards() {
-  // 设置中止标志
+  // 重置抽牌计数和已抽牌数组
+  drawCount = 0;
+  drawnCards = [];
+  isCardClickable = true;
   isAborting = true;
   
-  // 立即隐藏输出元素（在清空内容之前）
+  // 清空并重置输出元素
   const outputText = document.getElementById('outputText');
   const resultContainer = document.getElementById('resultContainer');
   
   if (outputText) {
-    outputText.style.visibility = 'hidden';
+    outputText.innerHTML = '';
     outputText.style.display = 'none';
+    outputText.style.visibility = 'visible'; // 确保可见性被重置
   }
   
   if (resultContainer) {
-    resultContainer.style.visibility = 'hidden';
-    resultContainer.style.display = 'none';
+    resultContainer.innerHTML = '';
+    resultContainer.style.display = 'block';
+    resultContainer.style.visibility = 'visible'; // 确保可见性被重置
   }
   
   // 中止当前AI请求
@@ -247,46 +253,51 @@ function resetCards() {
     currentController = null;
   }
 
-  // 等待一小段时间后清空内容
-  setTimeout(() => {
-    if (outputText) outputText.innerHTML = '';
-    if (resultContainer) resultContainer.innerHTML = '';
-    
-    // 重置按钮状态
-    ['resetButton', 'copyButton', 'aiButton'].forEach(id => {
-      const element = document.getElementById(id);
-      if(element) {
-        element.style.display = 'none';
-        if(id === 'aiButton') {
-          element.classList.remove('loading');
-          element.textContent = 'AI解读';
-        }
+  // 隐藏按钮
+  ['resetButton', 'copyButton', 'aiButton'].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) {
+      element.style.display = 'none';
+      // 重置AI按钮状态
+      if(id === 'aiButton') {
+        element.classList.remove('loading');
+        element.textContent = 'AI解读';
       }
-    });
-
-    // 重置输入
-    const inputText = document.getElementById('inputText');
-    if(inputText) {
-      inputText.value = '';
     }
+  });
 
-    // 重置状态变量
-    drawnCards = [];
-    drawCount = 0;
-    isCardClickable = true;
-    
-    // 重新初始化卡片
+  // 显示表单区域和抽牌区域
+  const form = document.querySelector('.form');
+  if(form) {
+    form.style.display = 'block';
+    form.style.visibility = 'visible'; // 确保可见性被重置
+  }
+  
+  const cardContainer = document.getElementById('cardContainer');
+  if(cardContainer) {
+    cardContainer.style.display = 'block';
+    cardContainer.style.visibility = 'visible'; // 确保可见性被重置
+    // 重新初始化卡牌
+    cardContainer.innerHTML = '';
     initCards();
+  }
 
-    // 强制滚动到顶部
-    window.scrollTo({
-      top: 0,
-      behavior: 'instant'
-    });
+  // 重置输入框
+  const inputText = document.getElementById('inputText');
+  if(inputText) {
+    inputText.value = '';
+  }
 
-    // 最后重置中止标志
+  // 滚动到顶部
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+
+  // 重置中止标志
+  setTimeout(() => {
     isAborting = false;
-  }, 50);
+  }, 100);
 }
 
 function copyResult() {
