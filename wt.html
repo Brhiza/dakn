@@ -8,13 +8,14 @@
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <title>韦特牌</title>
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="css/wt.css" as="style">
+    <link rel="preload" href="css/tarot.css" as="style">
     <link rel="preload" href="js/wt.js" as="script">
-    <link rel="stylesheet" href="css/wt.css">
+    <link rel="stylesheet" href="css/tarot.css">
     <!-- 延迟加载非关键脚本 -->
-    <script src="js/marked.min.js" defer></script>
-    <script src="js/particles.min.js" defer></script>
-    <script src="js/particles-config.js" defer></script>
+    <script src="https://unpkg.com/marked@15.0.6/marked.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js" defer></script>
+    <script src="js/effects.js" defer></script>
+    <script src="js/tarot-common.js" defer></script>
     <script src="js/wt.js" defer></script>
 </head>
 <body>
@@ -39,7 +40,7 @@
             <div class="btns">
                 <button class="btn" id="copyButton" onclick="copyResult()" style="display: none;" aria-label="复制结果">复制结果</button>
                 <button class="btn" id="resetButton" onclick="resetCards()" style="display: none;" aria-label="重新抽牌">重新抽牌</button>
-                <button class="btn btn-ai" id="aiButton" onclick="aiInterpretation()" style="display: none;" aria-label="AI解读">AI解读</button>
+                <button class="btn btn-ai" id="aiButton" onclick="window.aiInterpretation()" style="display: none;" aria-label="AI解读">AI解读</button>
             </div>
             <div class="output" id="outputText" role="region" aria-label="输出结果"></div>
         </main>
