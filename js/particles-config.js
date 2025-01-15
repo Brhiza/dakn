@@ -70,40 +70,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 初始化粒子
         for(let i = 0; i < 1500; i++) {
-            let minRadius = Math.min(window.innerWidth, window.innerHeight) * 0.2;
-            let maxRadius = Math.max(window.innerWidth, window.innerHeight) * 1.2;
+            let minRadius = Math.min(window.innerWidth, window.innerHeight) * 0.15;
+            let maxRadius = Math.max(window.innerWidth, window.innerHeight) * 1.3;
             
-            let baseTrackCount = 24;
-            let randomOffset = (Math.random() - 0.5) * 0.8;
+            let baseTrackCount = 18;
+            let randomOffset = (Math.random() - 0.5) * 0.6;
             let trackIndex = Math.floor(Math.random() * baseTrackCount) + randomOffset;
             trackIndex = Math.max(0, Math.min(trackIndex, baseTrackCount - 1));
             
-            let normalizedTrack = Math.pow(trackIndex / (baseTrackCount - 1), 0.8);
-            normalizedTrack = normalizedTrack * (0.9 + Math.random() * 0.2);
+            let normalizedTrack = Math.pow(trackIndex / (baseTrackCount - 1), 0.9);
+            normalizedTrack = normalizedTrack * (0.85 + Math.sqrt(normalizedTrack) * 0.15);
             let radius = minRadius + (maxRadius - minRadius) * normalizedTrack;
             
-            radius += (Math.random() - 0.5) * (maxRadius - minRadius) * 0.05;
+            radius += (Math.random() - 0.5) * (maxRadius - minRadius) * 0.015;
             
-            if (normalizedTrack < 0.2 && Math.random() > normalizedTrack * 3) {
+            if (normalizedTrack < 0.15 && Math.random() > normalizedTrack * 4) {
                 continue;
             }
 
             let angle = Math.random() * Math.PI * 2;
-            let speed = (0.02 + Math.random() * 0.04) / 100;
-            let size = 0.3 + Math.random() * 1.0;
+            let speed = (0.025 + Math.random() * 0.05) / 100;
+            let size = 0.4 + Math.random() * 1.2;
             particles.push({
                 radius,
                 angle,
                 speed,
                 size,
                 sizeOffset: Math.random() * Math.PI * 2,
-                sizeSpeed: 0.01 + Math.random() * 0.01
+                sizeSpeed: 0.015 + Math.random() * 0.015
             });
         }
 
         // 更新和绘制粒子
         function updateParticles() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.02)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.025)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             ctx.fillStyle = '#ffffff';
@@ -117,12 +117,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (particle.sizeOffset >= Math.PI * 2) {
                     particle.sizeOffset = 0;
                 }
-                let currentSize = particle.size * (0.85 + Math.sin(particle.sizeOffset) * 0.15);
+                let currentSize = particle.size * (0.8 + Math.sin(particle.sizeOffset) * 0.2);
                 
                 let x = centerX + particle.radius * Math.cos(particle.angle);
                 let y = centerY + particle.radius * Math.sin(particle.angle);
                 
-                let margin = 100;
+                let margin = 80;
                 if (x >= -margin && x <= canvas.width + margin && 
                     y >= -margin && y <= canvas.height + margin) {
                     ctx.beginPath();

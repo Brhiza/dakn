@@ -399,115 +399,114 @@ function generateResultContent(card) {
 }
 
 function drawCard() {
-    if (!isCardClickable) return;
-    isCardClickable = false;
-    const inputText = document.getElementById('inputText').value;
-    if (!inputText.trim()) {
-        alert("你还没有写下问题呢");
-        isCardClickable = true;
-        return;
-    }
-    const cardNumber = this.dataset.number;
-    const isReversed = Math.random() < 0.5;
-    
-    drawnCards.push({
-        number: cardNumber,
-        reversed: isReversed,
-        description: isReversed ? cardDescriptions[cardNumber].reversed : cardDescriptions[cardNumber].upright
+  if (!isCardClickable) return;
+  isCardClickable = false;
+  const inputText = document.getElementById('inputText').value;
+  if (!inputText.trim()) {
+    alert("你还没有写下问题呢");
+    isCardClickable = true;
+    return;
+  }
+  const cardNumber = this.dataset.number;
+  const isReversed = Math.random() < 0.5;
+  
+  drawnCards.push({
+    number: cardNumber,
+    reversed: isReversed,
+    description: isReversed ? cardDescriptions[cardNumber].reversed : cardDescriptions[cardNumber].upright
+  });
+  
+  drawCount++;
+  
+  // 更新结果区域
+  const resultContainer = document.getElementById('resultContainer');
+  resultContainer.innerHTML += generateResultContent({
+    number: cardNumber,
+    reversed: isReversed
+  });
+
+  // 移除当前卡片
+  this.classList.add('hide');
+  setTimeout(() => {
+    this.remove();
+  }, 300);
+
+  if (drawCount === 3) {
+    // 立即禁用所有卡片的点击事件
+    const cardElements = document.querySelectorAll('.card');
+    cardElements.forEach(card => {
+      card.removeEventListener('click', drawCard);
+      card.style.pointerEvents = 'none';
     });
-    
-    drawCount++;
-    
-    // 更新结果区域
-    const resultContainer = document.getElementById('resultContainer');
-    resultContainer.innerHTML += generateResultContent({
-        number: cardNumber,
-        reversed: isReversed
-    });
 
-    // 移除当前卡片
-    this.classList.add('hide');
+    // 显示按钮
+    const resetButton = document.getElementById('resetButton');
+    resetButton.style.display = 'block';
+    const copyButton = document.getElementById('copyButton');
+    copyButton.style.display = 'block';
+    const aiButton = document.getElementById('aiButton');
+    aiButton.style.display = 'block';
+
+    // 更新输出文本
+    const outputText = document.getElementById('outputText');
+    const cardNames = drawnCards.map(card => `<strong>${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}</strong>`).join('、');
+    const cardDescriptionsText = drawnCards.map(card => `<em>${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}，代表${card.description}</em>`).join('<br>');
+    const resultText = `${cardNames}<br>${inputText}<br><br><strong>牌意简介</strong><br>${cardDescriptionsText}`;
+    outputText.innerHTML = resultText;
+
+    // 滚动到底部
     setTimeout(() => {
-        this.remove();
-    }, 300);
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }, 100);
+  }
 
-    if (drawCount === 3) {
-        // 立即禁用所有卡片的点击事件
-        const cardElements = document.querySelectorAll('.card');
-        cardElements.forEach(card => {
-            card.removeEventListener('click', drawCard);
-            card.style.pointerEvents = 'none';
-        });
-
-        // 显示按钮并隐藏抽牌区域
-        const resetButton = document.getElementById('resetButton');
-        resetButton.style.display = 'block';
-        const copyButton = document.getElementById('copyButton');
-        copyButton.style.display = 'block';
-        const aiButton = document.getElementById('aiButton');
-        aiButton.style.display = 'block';
-        
-        // 隐藏抽牌区域
-        const form = document.querySelector('.form');
-        form.style.display = 'none';
-
-        // 更新输出文本
-        const outputText = document.getElementById('outputText');
-        const cardNames = drawnCards.map(card => `<strong>${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}</strong>`).join('、');
-        const cardDescriptionsText = drawnCards.map(card => `<em>${card.reversed ? "逆位" : ""}${majorArcanaCardNames[card.number]}，代表${card.description}</em>`).join('<br>');
-        const resultText = `${cardNames}<br>${inputText}<br><br><strong>牌意简介</strong><br>${cardDescriptionsText}`;
-        outputText.innerHTML = resultText;
-        
-        // 滚动到底部
-        setTimeout(() => {
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: 'smooth'
-            });
-        }, 100);
-    }
-
-    setTimeout(() => {
-        isCardClickable = true;
-    }, 500);
+  setTimeout(() => {
+    isCardClickable = true;
+  }, 500);
 }
 
 function resetCards() {
-    // 重置抽牌计数和已抽牌数组
-    drawCount = 0;
-    drawnCards = [];
-    
-    // 清空结果区域
-    const resultContainer = document.getElementById('resultContainer');
-    resultContainer.innerHTML = '';
-    
-    // 清空输出文本
-    const outputText = document.getElementById('outputText');
-    outputText.innerHTML = '';
-    
-    // 隐藏按钮
-    const resetButton = document.getElementById('resetButton');
-    resetButton.style.display = 'none';
-    const copyButton = document.getElementById('copyButton');
-    copyButton.style.display = 'none';
-    const aiButton = document.getElementById('aiButton');
-    aiButton.style.display = 'none';
-    
-    // 显示表单区域和抽牌区域
-    const form = document.querySelector('.form');
-    form.style.display = 'block';
-    const cardContainer = document.getElementById('cardContainer');
-    cardContainer.style.display = 'block';
-    
-    // 重新初始化卡牌
-    cardContainer.innerHTML = '';
-    initCards();
-    
-    // 滚动到顶部
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
+  drawnCards = [];
+  drawCount = 0;
+  isCardClickable = true;
+  
+  // 重置UI元素
+  ['resultContainer', 'outputText'].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) {
+      element.innerHTML = '';
+      element.style.display = 'block'; // 确保元素可见性被重置
+    }
+  });
+  
+  ['resetButton', 'copyButton', 'aiButton'].forEach(id => {
+    const element = document.getElementById(id);
+    if(element) {
+      element.style.display = 'none';
+      // 重置AI按钮状态
+      if(id === 'aiButton') {
+        element.classList.remove('loading');
+        element.textContent = 'AI解读';
+      }
+    }
+  });
+  
+  const inputText = document.getElementById('inputText');
+  if(inputText) {
+    inputText.value = '';
+  }
+  
+  // 重新初始化卡片
+  initCards();
+  
+  // 中止任何正在进行的AI请求
+  if(window.currentAIRequest) {
+    window.currentAIRequest.abort();
+    window.currentAIRequest = null;
+  }
 }
 
 function copyResult() {
@@ -651,7 +650,7 @@ function drawOneCard() {
     
     // 根据指定数量抽取卡牌
     for(let i = 0; i < cardCount; i++) {
-        const cardNumber = Math.floor(Math.random() * 78);
+        const cardNumber = Math.floor(Math.random() * 78); // 只从大阿卡纳牌中选择
         const isReversed = Math.random() < 0.5;
         
         drawnCards.push({
@@ -675,12 +674,6 @@ function drawOneCard() {
     // 显示按钮
     ['resetButton', 'copyButton', 'aiButton'].forEach(id => 
         document.getElementById(id).style.display = 'block');
-
-    // 隐藏抽牌区域和表单
-    const form = document.querySelector('.form');
-    form.style.display = 'none';
-    const cardContainer = document.getElementById('cardContainer');
-    cardContainer.style.display = 'none';
 
     // 更新输出文本
     const outputText = document.getElementById('outputText');

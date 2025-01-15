@@ -140,13 +140,13 @@ body {
 
 .result {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    padding: 2rem;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
     width: 100%;
     box-sizing: border-box;
+    max-width: 1600px;
     margin: 0 auto;
 }
 
@@ -155,7 +155,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    min-width: 0;
 }
 
 .result img {
@@ -168,16 +168,16 @@ body {
     backdrop-filter: blur(8px);
     box-shadow: var(--card-shadow),
                 0 0 0 1px rgba(255, 255, 255, 0.3);
-    transition: transform 0.3s ease;
 }
 
 .result p {
-    margin: 0;
+    word-wrap: break-word;
+    margin: 0.5rem 0 0 0;
     color: #fff;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     text-align: center;
+    width: 100%;
     font-size: 1.1rem;
-    white-space: nowrap;
 }
 
 .btns {
@@ -274,54 +274,12 @@ body {
 .title {
     font-size: 64px;
     color: var(--primary-color);
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3),
-                 0 0 15px rgba(255, 255, 255, 0.5),
-                 0 0 25px rgba(255, 255, 255, 0.2);
+    margin-bottom: 30px;
+    text-shadow: var(--text-shadow);
     text-align: center;
     text-decoration: none;
-    font-weight: 700;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 5px 20px;
 }
-
-.title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, 
-        transparent,
-        rgba(255, 255, 255, 0.8),
-        transparent);
-    transition: width 0.3s ease;
-}
-
-.title:hover::after {
-    width: 80%;
-}
-
-a h1.title {
-    text-decoration: none;
-    color: #fff;
-    position: relative;
-    display: inline-block;
-}
-
-/* 移动端适配 */
-@media (max-width: 768px) {
-    .title {
-        font-size: 36px;
-        margin-bottom: 10px;
-        padding: 5px 10px;
-    }
-}
-
+    
 .form {
     font-size: 24px;
     color: var(--primary-color);
@@ -452,17 +410,17 @@ a h1.title {
     }
 
     .result {
-        gap: 1rem;
-        padding: 1rem;
+        gap: 0.5rem;
+        padding: 0.5rem;
     }
 
     .result img {
-        width: 7rem;
-        height: 10.5rem;
+        width: 4.8rem;
+        height: 7.2rem;
     }
 
     .result p {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     .title {
