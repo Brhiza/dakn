@@ -37,4 +37,16 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = `${selectedUrl}${separator}deck=${deck}`;
         });
     });
+
+    // 在原有的 URL 参数处理中添加 deck 参数的传递
+    function updateDeckButtons() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const count = urlParams.get('count');
+        
+        document.querySelectorAll('.deck-btn').forEach(button => {
+            const deck = button.dataset.deck;
+            // 移除 href 属性，由预加载函数处理跳转
+            button.removeAttribute('href');
+        });
+    }
 }); 
