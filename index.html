@@ -29,7 +29,6 @@
         function preloadDeckImages(deck, count) {
             // 检查是否已经预加载过
             if (localStorage.getItem(`preloaded_${deck}`)) {
-                console.log(`${deck}牌组已预加载`);
                 return;
             }
 
@@ -37,34 +36,13 @@
             const images = [];
             let loadedCount = 0;
             
-            // 创建加载提示元素
-            const loadingTip = document.createElement('div');
-            loadingTip.className = 'loading-tip';
-            loadingTip.textContent = '正在加载牌组...';
-            document.querySelector('.deck-buttons').appendChild(loadingTip);
-            
             for (let i = 0; i < cardCount; i++) {
                 const img = new Image();
                 img.onload = function() {
                     loadedCount++;
-                    // 更新加载进度
-                    loadingTip.textContent = `正在加载牌组... ${Math.floor((loadedCount/cardCount) * 100)}%`;
-                    
                     if (loadedCount === cardCount) {
                         // 所有图片加载完成
                         localStorage.setItem(`preloaded_${deck}`, 'true');
-                        console.log(`${deck}牌组预加载完成`);
-                        loadingTip.textContent = '加载完成！';
-                        
-                        // 延迟跳转，确保用户看到加载完成的提示
-                        setTimeout(() => {
-                            // 根据count参数决定跳转到哪个页面
-                            if (count) {
-                                window.location.href = `wt.html?count=${count}&deck=${deck}`;
-                            } else {
-                                window.location.href = `dakn.html?deck=${deck}`;
-                            }
-                        }, 500);
                     }
                 };
                 img.src = `img/${deck}/${i}.jpg`;
@@ -74,6 +52,15 @@
             window._preloadedImages = images;
         }
 
+        // 页面跳转函数
+        function redirectToPage(deck, count) {
+            if (count) {
+                window.location.href = `wt.html?count=${count}&deck=${deck}`;
+            } else {
+                window.location.href = `dakn.html?deck=${deck}`;
+            }
+        }
+
         // 修改点击事件处理
         document.addEventListener('DOMContentLoaded', function() {
             const deckButtons = document.querySelectorAll('.deck-btn');
@@ -81,30 +68,17 @@
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
                     const deck = this.dataset.deck;
-                    // 获取URL中的count参数
                     const urlParams = new URLSearchParams(window.location.search);
                     const count = urlParams.get('count');
+                    
+                    // 立即跳转
+                    redirectToPage(deck, count);
+                    
+                    // 后台预加载图片
                     preloadDeckImages(deck, count);
                 });
             });
         });
-
-        // 添加样式
-        const style = document.createElement('style');
-        style.textContent = `
-            .loading-tip {
-                position: fixed;
-                bottom: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(0, 0, 0, 0.8);
-                color: white;
-                padding: 10px 20px;
-                border-radius: 5px;
-                z-index: 1000;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </head>
 <body>
