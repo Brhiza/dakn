@@ -268,8 +268,8 @@
 
     @media (max-width: 768px) {
         .content-box {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: none;
+          background: rgba(255, 255, 255, 0.2); /* 毛玻璃背景 */
+          backdrop-filter: blur(10px);
             -webkit-backdrop-filter: none;
         }
         
@@ -324,8 +324,7 @@ h1 {
       font-size: 1rem;
       border: 1px solid #ccc;
       border-radius: 5px;
-            background: rgba(255, 255, 255, 0.2); /* 毛玻璃背景 */
-            backdrop-filter: blur(10px);
+            
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
       margin-top: 0.5rem;
